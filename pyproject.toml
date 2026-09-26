@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bnsh-ai"
-version = "0.1.0a0"
+version = "0.1.0a1"
 description = "Open multilingual AI runtime and model tooling for BNSH AI."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -13,6 +13,9 @@ authors = [
   {name = "Binesh E B"}
 ]
 dependencies = []
+
+[project.scripts]
+bnsh = "bnsh.cli:main"
 
 [project.optional-dependencies]
 dev = [
