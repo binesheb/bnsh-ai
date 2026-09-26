@@ -89,3 +89,15 @@ See [SECURITY.md](SECURITY.md).
 ## License
 
 See [LICENSE](LICENSE).
+
+## Local model experimentation
+
+The core package is intentionally lightweight. For local open-weight model experimentation, install the optional Transformers backend:
+
+```bash
+pip install -e ".[transformers]"
+```
+
+Then use `TransformersBackend` with `BNSHRuntime`. See [docs/transformers.md](docs/transformers.md).
+
+The first backend is an interoperability layer; it is not yet the BNSH foundation model itself. The project will establish its own training and evaluation pipeline before publishing BNSH model checkpoints.
