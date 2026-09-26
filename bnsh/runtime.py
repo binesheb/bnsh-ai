@@ -1,6 +1,7 @@
 """Core BNSH AI runtime interface."""
 from dataclasses import dataclass
 from typing import Any, Iterable
+
 from .backends import Backend
 from .config import RuntimeConfig
 from .messages import Message
@@ -35,7 +36,4 @@ class BNSHRuntime:
         return self.backend.info() if self.backend is not None else None
 
     def health(self) -> dict[str, Any]:
-        return {
-            "status": "ok" if self.backend is not None else "unconfigured",
-            "model": self.model,
-        }
+        return {"status": "ok" if self.backend is not None else "unconfigured", "model": self.model}
