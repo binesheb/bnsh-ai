@@ -37,10 +37,11 @@ class TransformersBackend(Backend):
 
     def info(self) -> ModelInfo:
         config = self.model.config
+        parameter_count = config.num_parameters() if hasattr(config, "num_parameters") else None
         return ModelInfo(
             id=self.model_id,
             architecture=(config.architectures or [None])[0],
-            parameter_count=getattr(config, "num_parameters", lambda: None)(),
+            parameter_count=parameter_count,
             context_length=getattr(config, "max_position_embeddings", None),
             modality="text",
         )
