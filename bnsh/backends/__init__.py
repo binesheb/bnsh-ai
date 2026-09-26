@@ -1,3 +1,5 @@
-"""Inference backend interfaces for BNSH AI."""
+"""Inference backends for BNSH AI."""
 from .base import Backend, EchoBackend
-__all__ = ["Backend", "EchoBackend"]
+from .transformers import TransformersBackend
+
+__all__ = ["Backend", "EchoBackend", "TransformersBackend"]
