@@ -35,8 +35,13 @@ curl -fsSL https://raw.githubusercontent.com/binesheb/bnsh-ai/main/bootstrap.sh 
 Windows PowerShell:
 
 ```powershell
-Set-ExecutionPolicy -Scope Process Bypass
-.\bootstrap.ps1
+irm https://raw.githubusercontent.com/binesheb/bnsh-ai/main/bootstrap.ps1 | iex
+```
+
+After installation, start the Control Center with:
+
+```powershell
+bnsh control
 ```
 
 ## Architecture
