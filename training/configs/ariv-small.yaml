@@ -1,0 +1,27 @@
+# ARIV small-scale pipeline configuration.
+# This is an experiment configuration, not a production training recipe.
+
+model:
+  name: ariv-small
+  architecture: causal_lm
+  vocab_size: 32000
+  hidden_size: 512
+  intermediate_size: 2048
+  num_hidden_layers: 8
+  num_attention_heads: 8
+  max_position_embeddings: 2048
+
+training:
+  seed: 42
+  output_dir: artifacts/ariv-small
+  num_train_epochs: 1
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 8
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  logging_steps: 10
+  save_steps: 500
+
+data:
+  train: data/sample/train.jsonl
+  validation: data/sample/validation.jsonl
