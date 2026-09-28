@@ -1,56 +1,27 @@
+# BNSH AI Bootstrap Installer
+# Usage: irm https://raw.githubusercontent.com/binesheb/bnsh-ai/main/bootstrap.ps1 | iex
 $ErrorActionPreference = "Stop"
-
-# BNSH AI bootstrap installer for Windows PowerShell.
-# Usage:
-#   powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1
-
-$RepoUrl = if ($env:BNSH_REPO_URL) { $env:BNSH_REPO_URL } else { "https://github.com/binesheb/bnsh-ai.git" }
-$InstallDir = if ($env:BNSH_INSTALL_DIR) { $env:BNSH_INSTALL_DIR } else { Join-Path (Get-Location) "bnsh-ai" }
-$VenvDir = if ($env:BNSH_VENV) { $env:BNSH_VENV } else { Join-Path $InstallDir ".venv" }
-
-Write-Host "[BNSH] Checking prerequisites..."
-
-if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-    throw "Git is required."
-}
-
-$python = Get-Command py -ErrorAction SilentlyContinue
-if (-not $python) {
-    $python = Get-Command python -ErrorAction SilentlyContinue
-}
-if (-not $python) {
-    throw "Python 3.10+ is required."
-}
-
-$PythonCommand = $python.Source
-$version = & $PythonCommand -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
-& $PythonCommand -c "import sys; raise SystemExit(0 if sys.version_info >= (3,10) else 1)"
-if ($LASTEXITCODE -ne 0) {
-    throw "Python 3.10+ is required. Found $version."
-}
-
-if (-not (Test-Path (Join-Path $InstallDir ".git"))) {
-    Write-Host "[BNSH] Cloning into $InstallDir..."
-    git clone $RepoUrl $InstallDir
-}
-
-Set-Location $InstallDir
-
-Write-Host "[BNSH] Creating virtual environment..."
-& $PythonCommand -m venv $VenvDir
-
-$VenvPython = Join-Path $VenvDir "Scripts\python.exe"
-
-Write-Host "[BNSH] Installing BNSH AI..."
-& $VenvPython -m pip install --upgrade pip
-& $VenvPython -m pip install -e ".[dev]"
-
-Write-Host "[BNSH] Running validation..."
-& $VenvPython -m pytest -q
-
-Write-Host ""
-Write-Host "[BNSH] BNSH AI is ready."
-Write-Host "Run:"
-Write-Host "  $VenvDir\Scripts\Activate.ps1"
-Write-Host "  bnsh health"
-Write-Host '  bnsh chat "Hello from BNSH AI"'
+$Repo = "https://github.com/binesheb/bnsh-ai.git"
+$InstallRoot = Join-Path $env:LOCALAPPDATA "BNSH"
+$RepoRoot = Join-Path $InstallRoot "bnsh-ai"
+$Launcher = Join-Path $InstallRoot "bnsh.ps1"
+function Require-Command($Name, $InstallHint) { if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) { throw "$Name is required. $InstallHint" } }
+Write-Host "  BNSH AI Bootstrap" -ForegroundColor Cyan
+Require-Command "git" "Install Git for Windows, then run this command again."
+Require-Command "python" "Install Python 3.11+ and ensure it is on PATH."
+New-Item -ItemType Directory -Force -Path $InstallRoot | Out-Null
+if (Test-Path (Join-Path $RepoRoot ".git")) { git -C $RepoRoot pull --ff-only } else { git clone $Repo $RepoRoot }
+$Venv = Join-Path $InstallRoot ".venv"
+if (-not (Test-Path (Join-Path $Venv "Scripts\python.exe"))) { python -m venv $Venv }
+$Python = Join-Path $Venv "Scripts\python.exe"
+& $Python -m pip install --upgrade pip
+$Requirements = Join-Path $RepoRoot "requirements.txt"
+if (Test-Path $Requirements) { & $Python -m pip install -r $Requirements }
+$launcherContent = 'Set-Item Env:BNSH_HOME "' + $InstallRoot + '"' + [Environment]::NewLine + 'Set-Item Env:BNSH_REPO "' + $RepoRoot + '"' + [Environment]::NewLine + '& "' + $Python + '" -m bnsh.cli $args' + [Environment]::NewLine
+$launcherContent | Set-Content -Encoding UTF8 $Launcher
+$Control = Join-Path $InstallRoot "control-center.ps1"
+$controlContent = 'Set-Location "' + $RepoRoot + '\control-center\frontend"' + [Environment]::NewLine + '& "' + $Python + '" serve.py' + [Environment]::NewLine
+$controlContent | Set-Content -Encoding UTF8 $Control
+Write-Host "BNSH AI installed." -ForegroundColor Green
+Write-Host ("CLI launcher: " + $Launcher) -ForegroundColor Cyan
+Write-Host ("Control Center launcher: " + $Control) -ForegroundColor Cyan
