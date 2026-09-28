@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bnsh-ai"
-version = "0.1.0a3"
-description = "Open multilingual AI runtime and model tooling for BNSH AI."
+version = "0.1.0a4"
+description = "BNSH AI ecosystem and ARIV open multilingual model tooling."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
@@ -18,6 +18,13 @@ transformers = [
   "torch>=2.2",
   "transformers>=4.45",
   "accelerate>=0.34",
+]
+training = [
+  "torch>=2.2",
+  "transformers>=4.45",
+  "datasets>=2.20",
+  "accelerate>=0.34",
+  "pyyaml>=6.0",
 ]
 
 [project.scripts]
