@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BNSH Control Center</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="mark">B</span><div><strong>BNSH</strong><small>AI Control Center</small></div></div>
+    <nav>
+      <button class="active">Overview</button>
+      <button>Models</button>
+      <button>Runtime</button>
+      <button>Training</button>
+      <button>Evolution</button>
+      <button>Learning</button>
+      <button>Knowledge</button>
+      <button>Teachers</button>
+      <button>Evaluation</button>
+      <button>Hardware</button>
+    </nav>
+    <button class="settings">Settings</button>
+  </aside>
+  <main>
+    <header>
+      <div><span class="eyebrow">BNSH AI</span><h1>Control Center</h1><p>Manage ARIV, models, runtime and continuous learning.</p></div>
+      <div class="status"><span></span> System healthy</div>
+    </header>
+
+    <section class="hero">
+      <div><span class="pill">ARIV FOUNDATION MODEL</span><h2>Your AI, under control.</h2><p>Install models, monitor inference and prepare the next generation of ARIV from one workspace.</p></div>
+      <div class="hero-model"><div class="orb">A</div><strong>ARIV</strong><small>Model runtime ready</small></div>
+    </section>
+
+    <section class="grid metrics">
+      <article><span>Active model</span><strong>—</strong><small>No model installed</small></article>
+      <article><span>CPU</span><strong id="cpu">—</strong><small>Waiting for runtime</small></article>
+      <article><span>Memory</span><strong id="memory">—</strong><small>System monitor</small></article>
+      <article><span>Learning</span><strong>OFF</strong><small>Controlled autonomy</small></article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel models"><div class="panel-head"><div><span class="eyebrow">MODEL HUB</span><h3>Install ARIV</h3></div><button class="ghost">View all</button></div><div id="models"></div></article>
+      <article class="panel"><div class="panel-head"><div><span class="eyebrow">ACTIVITY</span><h3>System activity</h3></div></div><div class="activity"><div><b>Control Center</b><span>Ready</span></div><div><b>Model catalog</b><span>Loaded</span></div><div><b>ARIV runtime</b><span>Not started</span></div></div></article>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
