@@ -112,7 +112,7 @@ Download / local inference / API / fine-tuning
 
 **Pre-alpha — runtime and model-development foundation.**
 
-The repository currently contains the runtime abstraction, backend interface, optional Transformers integration, model registry, tests, CI, bootstrap tooling, and initial model-development documentation.
+The repository currently contains the runtime abstraction, backend interface, optional Transformers integration, model registry, tests, CI, bootstrap tooling, dataset schema, and the first reproducible ARIV training experiment foundation.
 
 **No official BNSH foundation-model checkpoint has been released yet.**
 
