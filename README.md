@@ -2,7 +2,27 @@
 
 **Open Indian-built multilingual AI.**
 
-BNSH AI is an open model and AI runtime project focused on multilingual intelligence, local inference, developer access, and edge deployment.
+BNSH AI is an open foundation-model family and the ecosystem required to train, evaluate, distribute, run, and integrate BNSH models.
+
+> **BNSH is the model. The BNSH runtime is the infrastructure around the model.**
+
+## BNSH model family
+
+The project is intended to produce its own model checkpoints rather than being only a wrapper around another model family.
+
+Planned releases include:
+
+| Model | Purpose | Status |
+|---|---|---|
+| **BNSH** | General-purpose foundation model | Planned |
+| **BNSH-Instruct** | Instruction following and chat | Planned |
+| **BNSH-Reason** | Reasoning | Planned |
+| **BNSH-Coder** | Code generation | Planned |
+| **BNSH-Vision** | Vision-language | Planned |
+
+Size variants may eventually include models such as BNSH-1B, BNSH-3B, BNSH-7B and larger architectures. Exact sizes will be determined by training results and available compute.
+
+Existing open models may be supported as development/inference backends, but they are **not BNSH models**.
 
 ## One-command bootstrap
 
@@ -19,54 +39,95 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\bootstrap.ps1
 ```
 
-The bootstrap creates an isolated environment, installs BNSH AI, and runs the validation suite. See [docs/bootstrap.md](docs/bootstrap.md).
-
-## Project vision
-
-BNSH AI is designed to become an openly available family of foundation models that people can download, run, integrate, fine-tune, and build products with, subject to each release's license.
-
-It can run locally on personal computers, workstations, private servers, cloud infrastructure, and edge systems. BNSH AI is also intended to provide the intelligence layer for [BINESH OS](https://github.com/binesheb/binesh-os).
-
-## Planned model family
-
-| Model | Purpose | Status |
-|---|---|---|
-| BNSH-Base | Base language model | Planned |
-| BNSH-Instruct | Instruction-following/chat | Planned |
-| BNSH-Reason | Reasoning | Planned |
-| BNSH-Coder | Code generation | Planned |
-| BNSH-Vision | Vision-language | Planned |
-
 ## Architecture
 
 ```
-Applications
-    |
-BNSH SDK / REST API
-    |
-BNSH Runtime
-    |
-Model + Tokenizer + Inference Engine
-    |
-Local / Cloud / Edge Hardware
+                    BNSH AI
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+        BNSH Models        BNSH Ecosystem
+             │                   │
+   ┌─────────┼─────────┐   ┌─────┼──────────┐
+   │         │         │   │     │          │
+ Base    Instruct   Reason Runtime Training Evaluation
+   │         │         │   │     │          │
+   └─────────┴─────────┘   └─────┼──────────┘
+                                 │
+                           BNSH SDK / API
+                                 │
+                 ┌───────────────┼───────────────┐
+                 │               │               │
+              Windows          Linux          BINESH OS
+```
+
+BINESH OS is an important consumer and deployment target, but BNSH models remain independent and usable by anyone.
+
+## Runtime
+
+The runtime provides a stable interface between applications and models:
+
+```python
+from bnsh import BNSHRuntime
+
+ai = BNSHRuntime(model="BNSH")
+
+# configured inference backend
+response = ai.chat("Hello")
+```
+
+The CLI is part of the BNSH ecosystem:
+
+```bash
+bnsh model list
+bnsh model info BNSH
+bnsh chat --model BNSH "Hello"
+```
+
+## Model lifecycle
+
+```
+Research
+   ↓
+Data governance
+   ↓
+Dataset preparation
+   ↓
+Tokenizer
+   ↓
+Pretraining
+   ↓
+BNSH checkpoint
+   ↓
+Instruction tuning
+   ↓
+Evaluation
+   ↓
+Model release
+   ↓
+Download / local inference / API / fine-tuning
 ```
 
 ## Current status
 
 **Pre-alpha — runtime and model-development foundation.**
 
-The repository currently contains the runtime abstraction, backend interface, optional Transformers integration, tests, CI, and bootstrap tooling. The first BNSH foundation model has not yet been released.
+The repository currently contains the runtime abstraction, backend interface, optional Transformers integration, model registry, tests, CI, bootstrap tooling, and initial model-development documentation.
+
+**No official BNSH foundation-model checkpoint has been released yet.**
 
 ## Principles
 
-1. Open by design.
-2. Reproducible where practical.
-3. Multilingual from the beginning.
-4. Local inference is first-class.
-5. Model and runtime are separate.
-6. Evaluation accompanies model releases.
-7. BINESH OS uses stable AI interfaces.
-8. Training data and upstream licenses must be documented.
+1. BNSH models are first-class open models.
+2. Open by design.
+3. Reproducible where practical.
+4. Multilingual from the beginning.
+5. Local inference is first-class.
+6. Model and runtime are separate.
+7. Evaluation accompanies model releases.
+8. BINESH OS uses stable AI interfaces.
+9. Training data and upstream licenses must be documented.
+10. External models can be supported without being rebranded as BNSH.
 
 ## Contributing
 
