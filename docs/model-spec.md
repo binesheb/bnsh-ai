@@ -1,19 +1,42 @@
-# BNSH Model Specification
+# ARIV Model Specification
 
 ## Identity
 
-**BNSH is a model family.**
+**ARIV is the foundation-model family created by BNSH AI.**
 
-The name BNSH must not be used to imply that an external model is an official BNSH checkpoint.
+The naming hierarchy is:
 
-The repository contains both:
+- **BNSH AI** — the overall open AI ecosystem.
+- **ARIV** — the foundation-model family.
+- **BNSH Runtime** — the runtime and integration layer.
+- **BNSH SDK/API** — developer interfaces.
+- **BINESH OS** — an important operating-system and edge deployment target.
 
-1. **BNSH models** — models trained/released as part of the BNSH model family.
-2. **BNSH ecosystem software** — runtime, training, evaluation, model management, SDKs, APIs, and deployment tooling.
+The name ARIV must not be used to imply that an external model is an official ARIV checkpoint.
+
+## Model variants
+
+The family may contain:
+
+- **ARIV** — general foundation model
+- **ARIV-Instruct** — instruction following and chat
+- **ARIV-Reason** — reasoning
+- **ARIV-Coder** — code generation
+- **ARIV-Vision** — vision-language
+
+Size variants may use names such as ARIV-1B, ARIV-3B, ARIV-7B, or larger variants when supported by actual releases.
+
+These names describe intended capabilities, not guarantees. A release should only claim capabilities supported by documented evaluation.
+
+## Multilingual focus
+
+Indian languages are a core research direction. Initial research may include English, Malayalam, Hindi, Tamil, Kannada, and Telugu.
+
+Language quality must be demonstrated through documented evaluations rather than branding claims.
 
 ## Public goals
 
-A BNSH model should be:
+An ARIV release should be:
 
 - downloadable
 - locally runnable
@@ -23,27 +46,9 @@ A BNSH model should be:
 - usable through standard developer interfaces
 - suitable for research and product integration according to its release license
 
-## Model variants
-
-The family may contain:
-
-- BNSH — general foundation model
-- BNSH-Instruct — instruction-following model
-- BNSH-Reason — reasoning model
-- BNSH-Coder — coding model
-- BNSH-Vision — vision-language model
-
-These names describe intended capabilities, not guarantees. A release should only claim capabilities supported by evaluation.
-
-## Multilingual focus
-
-Indian languages are a core research direction. Initial research may include English, Malayalam, Hindi, Tamil, Kannada, and Telugu.
-
-Language quality must be demonstrated through documented evaluations rather than branding claims.
-
 ## Release requirements
 
-Before a public BNSH model release, document:
+Before a public ARIV model release, document:
 
 - architecture
 - parameter count
@@ -63,8 +68,8 @@ Before a public BNSH model release, document:
 
 The BNSH ecosystem may support external open models through adapters and inference backends.
 
-External models must retain their original identity and applicable license. They must not be represented as BNSH checkpoints.
+External models retain their original identity and applicable license. They must not be represented as ARIV checkpoints.
 
 ## Code versus model licensing
 
-The repository's software license does not automatically determine the license of future model weights or datasets. Every model release must publish its own applicable licensing information.
+The BNSH software license does not automatically determine the license of future ARIV model weights or datasets. Every model release must publish its own applicable licensing information.
