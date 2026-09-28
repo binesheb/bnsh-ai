@@ -2,25 +2,25 @@
 
 **Open Indian-built multilingual AI.**
 
-BNSH AI is an open foundation-model family and the ecosystem required to train, evaluate, distribute, run, and integrate BNSH models.
+BNSH AI is the open AI ecosystem. **ARIV is its foundation-model family**, designed for multilingual intelligence, local inference, developer access, and deployment across personal computers, servers, cloud infrastructure, and BINESH OS.
 
-> **BNSH is the model. The BNSH runtime is the infrastructure around the model.**
+> **BNSH AI is the ecosystem. ARIV is the model family. BNSH Runtime is the infrastructure around ARIV and other supported models.**
 
-## BNSH model family
+## ARIV model family
 
-The project is intended to produce its own model checkpoints rather than being only a wrapper around another model family.
+The project is intended to produce its own ARIV model checkpoints rather than being only a wrapper around another model family.
 
 Planned releases include:
 
 | Model | Purpose | Status |
 |---|---|---|
-| **BNSH** | General-purpose foundation model | Planned |
-| **BNSH-Instruct** | Instruction following and chat | Planned |
-| **BNSH-Reason** | Reasoning | Planned |
-| **BNSH-Coder** | Code generation | Planned |
-| **BNSH-Vision** | Vision-language | Planned |
+| **ARIV** | General-purpose foundation model | Planned |
+| **ARIV-Instruct** | Instruction following and chat | Planned |
+| **ARIV-Reason** | Reasoning | Planned |
+| **ARIV-Coder** | Code generation | Planned |
+| **ARIV-Vision** | Vision-language | Planned |
 
-Size variants may eventually include models such as BNSH-1B, BNSH-3B, BNSH-7B and larger architectures. Exact sizes will be determined by training results and available compute.
+Size variants may eventually include models such as ARIV-1B, ARIV-3B, ARIV-7B and larger architectures. Exact sizes will be determined by training results and available compute.
 
 Existing open models may be supported as development/inference backends, but they are **not BNSH models**.
 
