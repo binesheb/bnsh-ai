@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "publisher": "BNSH AI",
+  "models": [
+    {
+      "id": "ariv-1b",
+      "name": "ARIV 1B",
+      "family": "ARIV",
+      "variant": "base",
+      "status": "planned",
+      "description": "Lightweight ARIV foundation model.",
+      "tags": ["multilingual", "foundation"],
+      "artifacts": []
+    },
+    {
+      "id": "ariv-3b",
+      "name": "ARIV 3B",
+      "family": "ARIV",
+      "variant": "base",
+      "status": "planned",
+      "description": "Balanced ARIV foundation model for local deployment.",
+      "tags": ["multilingual", "foundation", "local"],
+      "artifacts": []
+    },
+    {
+      "id": "ariv-instruct",
+      "name": "ARIV Instruct",
+      "family": "ARIV",
+      "variant": "instruct",
+      "status": "planned",
+      "description": "Instruction-following ARIV model.",
+      "tags": ["chat", "instruction", "multilingual"],
+      "artifacts": []
+    }
+  ]
+}
