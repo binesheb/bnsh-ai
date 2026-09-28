@@ -9,7 +9,7 @@ from .model_catalog import ModelCatalog
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "models" / "catalog.json"
-CONTROL_CENTER = ROOT / "control-center" / "frontend" / "serve.py"
+CONTROL_CENTER = ROOT / "control-center" / "start.py"
 
 
 def open_control_center() -> None:
