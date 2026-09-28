@@ -1,6 +1,19 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARIV Chat</title><link rel="stylesheet" href="styles.css"></head><body class="chat-page"><main class="chat-shell"><header><div><span class="eyebrow">BNSH AI · ARIV</span><h1>Chat</h1><p id="runtime">Runtime: checking...</p></div><a class="ghost" href="index.html">Dashboard</a></header><section id="messages" class="messages"><div class="message system">ARIV development runtime is available.</div></section><form id="chat"><input id="prompt" autocomplete="off" placeholder="Message ARIV..." required><button>Send</button></form></main><script>
-const API="http://127.0.0.1:8790";let messages=[];
-async function load(){let r=await fetch(API+"/api/runtime"),d=await r.json();if(!d.ready){await fetch(API+"/api/runtime/load",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model_id:"ariv-3b"})});r=await fetch(API+"/api/runtime");d=await r.json()}document.getElementById("runtime").textContent=d.ready?"Runtime: "+d.model_id+" · "+d.provider:"Runtime: not loaded"}
-function render(){document.getElementById("messages").innerHTML=messages.map(m=>"<div class=\"message "+m.role+"\">"+m.content.replace(/</g,"&lt;")+"</div>").join("")}
-document.getElementById("chat").onsubmit=async e=>{e.preventDefault();let i=document.getElementById("prompt"),t=i.value.trim();if(!t)return;messages.push({role:"user",content:t});i.value="";render();let r=await fetch(API+"/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:messages})}),d=await r.json();messages.push(d.message||{role:"assistant",content:d.error||"Request failed"});render()};load();
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BNSH AI — Chat</title><link rel="stylesheet" href="styles.css">
+<style>
+.chat{max-width:900px;margin:0 auto}.messages{min-height:55vh;border:1px solid #232a35;border-radius:16px;padding:22px;background:#0e1118;display:flex;flex-direction:column;gap:16px}.msg{max-width:78%;padding:13px 16px;border-radius:12px}.user{align-self:flex-end;background:#1b222d}.assistant{align-self:flex-start;border:1px solid #252d39}.composer{display:flex;gap:10px;margin-top:12px}.composer textarea{flex:1;resize:none;background:#0e1118;border:1px solid #29313d;color:#fff;border-radius:10px;padding:13px;font:inherit}.composer button{border:1px solid #657080;background:#151a22;border-radius:10px;padding:0 20px;cursor:pointer}.notice{color:#7e8898;font-size:12px;margin:8px 0 18px}
+</style></head>
+<body><main>
+<header><div><span class="eyebrow">BNSH AI</span><h1>Chat</h1><p>Talk to an installed ARIV model through the local runtime.</p></div><a href="/" style="color:#9aa5b5">Control Center</a></header>
+<section class="chat"><div id="notice" class="notice">Runtime status: checking…</div><div id="messages" class="messages"><div class="msg assistant">BNSH Chat is ready. Install and start an ARIV model to begin inference.</div></div>
+<form id="form" class="composer"><textarea id="input" rows="2" placeholder="Message ARIV…"></textarea><button>Send</button></form></section>
+</main><script>
+const API="http://127.0.0.1:8790";
+const messages=document.getElementById("messages"),input=document.getElementById("input"),notice=document.getElementById("notice");
+async function status(){try{const r=await fetch(API+"/api/runtime");const s=await r.json();notice.textContent="Runtime: "+s.state+(s.model_id?" · "+s.model_id:"")+(s.backend?" · "+s.backend:"")}catch(e){notice.textContent="Runtime: Control API unavailable"}}
+document.getElementById("form").addEventListener("submit",async e=>{e.preventDefault();const text=input.value.trim();if(!text)return;const u=document.createElement("div");u.className="msg user";u.textContent=text;messages.appendChild(u);input.value="";const a=document.createElement("div");a.className="msg assistant";a.textContent="Thinking…";messages.appendChild(a);try{const r=await fetch(API+"/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:text})});const d=await r.json();a.textContent=d.ok?d.response:(d.message||"Runtime is not ready.")}catch(_){a.textContent="Unable to reach the BNSH Control API."}messages.scrollTop=messages.scrollHeight});
+status();setInterval(status,3000);
 </script></body></html>
