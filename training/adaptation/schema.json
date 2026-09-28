@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARIV Teacher Manifest",
+  "type": "object",
+  "required": ["id", "model", "revision", "usage_basis"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "model": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "minLength": 1},
+    "provider": {"type": ["string", "null"]},
+    "usage_basis": {"type": "string", "minLength": 1},
+    "license": {"type": ["string", "null"]},
+    "endpoint": {"type": ["string", "null"]},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}
