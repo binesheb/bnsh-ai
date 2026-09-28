@@ -2,6 +2,9 @@ import json, os, platform, sys, time, shutil
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
+from runtime_service import RuntimeService
+
+RUNTIME = RuntimeService()
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
 from bnsh.runtime.base import ChatMessage, GenerationConfig, RuntimeNotReady
@@ -23,6 +26,17 @@ class Handler(BaseHTTPRequestHandler):
         return json.loads(self.rfile.read(int(self.headers.get("Content-Length","0"))) or b"{}")
     def do_OPTIONS(self):
         self.send_response(204); self.send_header("Access-Control-Allow-Origin","http://127.0.0.1:8787"); self.send_header("Access-Control-Allow-Methods","GET, POST, OPTIONS"); self.end_headers()
+    def do_POST(self):
+        path = urlparse(self.path).path
+        if path == "/api/chat":
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                payload = json.loads(self.rfile.read(length) or b"{}")
+                return self._json(RUNTIME.chat(str(payload.get("message", ""))))
+            except (ValueError, json.JSONDecodeError) as exc:
+                return self._json({"ok": False, "error": "invalid_request", "message": str(exc)}, 400)
+        return self._json({"error": "not_found"}, 404)
+
     def do_GET(self):
         p=urlparse(self.path).path
         if p=="/api/health": return self.out({"status":"ok","service":"bnsh-control-api"})
