@@ -612,3 +612,73 @@ The defining architecture is:
              |
       Windows / Linux / Cloud / Edge
 ```
+
+## 22. Public ARIV Model Distribution
+
+ARIV models must be installable by ordinary users as well as developers.
+
+### Installation paths
+
+**Control Center**
+
+```
+Discover → Select ARIV → Hardware check → Install → Run
+```
+
+**CLI**
+
+```bash
+bnsh model list
+bnsh model info ariv-3b
+bnsh model install ariv-3b
+bnsh model run ariv-3b
+```
+
+**Container**
+
+A future official container image should allow server deployment without requiring the desktop Control Center.
+
+**Model hubs**
+
+Official ARIV releases may be distributed through BNSH Model Hub and compatible public model registries.
+
+### Model catalog requirements
+
+Each published model needs:
+
+- stable model ID
+- human-readable name
+- family and variant
+- release status
+- model card
+- supported platforms
+- parameter count
+- context length
+- quantization variants where available
+- artifact URLs
+- file sizes
+- SHA-256 checksums
+- license
+- release version
+- hardware requirements
+- supported inference backends
+
+### Installation requirements
+
+The installer must:
+
+- detect hardware
+- estimate storage requirements
+- show the user what will be downloaded
+- support resumable downloads
+- verify checksums
+- validate model metadata
+- avoid silent large downloads
+- provide progress
+- support cancellation
+- support uninstall
+- support model updates
+- maintain installed-model state
+
+The model format must remain portable. Users must not be forced to use the BNSH GUI to run ARIV.
+
