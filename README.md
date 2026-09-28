@@ -84,6 +84,22 @@ bnsh model info BNSH
 bnsh chat --model BNSH "Hello"
 ```
 
+## Learning from existing models
+
+ARIV is designed to learn from compatible existing models through explicit adaptation workflows.
+
+Supported research paths include:
+
+- teacher-generated instruction data
+- knowledge distillation where technically and legally permitted
+- parameter-efficient adaptation
+- retrieval/tool-assisted data generation
+- evaluation and filtering before training
+
+External models remain external models. Their outputs, weights, licenses, and provenance are tracked separately from ARIV.
+
+See [docs/adaptation.md](docs/adaptation.md).
+
 ## Model lifecycle
 
 ```
