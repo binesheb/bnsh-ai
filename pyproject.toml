@@ -7,23 +7,23 @@ name = "bnsh-ai"
 version = "0.1.0a4"
 description = "BNSH AI ecosystem and ARIV open multilingual model tooling."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.14"
 license = {file = "LICENSE"}
 authors = [{name = "Binesh E B"}]
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.6"]
+dev = ["pytest>=8.3", "ruff>=0.9", "psutil>=6.1"]
 transformers = [
-  "torch>=2.2",
-  "transformers>=4.45",
-  "accelerate>=0.34",
+  "torch>=2.6",
+  "transformers>=4.49",
+  "accelerate>=1.2",
 ]
 training = [
-  "torch>=2.2",
-  "transformers>=4.45",
-  "datasets>=2.20",
-  "accelerate>=0.34",
+  "torch>=2.6",
+  "transformers>=4.49",
+  "datasets>=3.2",
+  "accelerate>=1.2",
   "pyyaml>=6.0",
 ]
 
