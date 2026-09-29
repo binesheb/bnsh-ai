@@ -682,3 +682,30 @@ The installer must:
 
 The model format must remain portable. Users must not be forced to use the BNSH GUI to run ARIV.
 
+
+
+## 23. Field-ready Windows baseline
+
+The deployment baseline now requires:
+
+- one-command PowerShell bootstrap via `irm ... | iex`
+- automatic Git/Python prerequisite installation through Windows Package Manager when available
+- isolated Python environment
+- editable BNSH installation with CLI entry point
+- `bnsh control` single-entry GUI launcher
+- loopback-only Control API by default
+- API readiness check before opening the GUI
+- system monitoring for CPU, memory, storage and runtime state
+- model catalog and installed-model detection
+- asynchronous model installation operations
+- temporary-file downloads with SHA-256 verification when a release checksum is supplied
+- local model registry
+- runtime health/doctor commands
+- Windows and Linux CI coverage
+- no silent model-weight downloads during bootstrap
+
+### Remaining release gate
+
+A production ARIV release is a separate artifact milestone. The stack must not represent a planned ARIV checkpoint as downloadable or production-ready until a model artifact, model card, license, checksum, compatibility metadata, evaluation results, and supported inference backend have been published.
+
+The runtime remains backend-agnostic so ARIV can later ship through GGUF/llama.cpp, Transformers, vLLM, or a BNSH-native inference engine without redesigning the Control Center.
