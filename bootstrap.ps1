@@ -73,7 +73,18 @@ if (Test-Path $RepoRoot) {
 }
 
 Step "Creating isolated Python environment"
-if (-not (Test-Path $Python)) { & $SystemPython -m venv $Venv; if ($LASTEXITCODE -ne 0) { Fail "Python virtual environment creation failed." } }
+$recreateVenv = $true
+if (Test-Path $Python) {
+  try {
+    $venvVersion = (& $Python -c "import sys; print(f\x27{sys.version_info.major}.{sys.version_info.minor}\x27)" 2>$null).Trim()
+    if ($venvVersion -match "^3\\.(11|12|13)$") { $recreateVenv = $false }
+  } catch {}
+}
+if ($recreateVenv) {
+  if (Test-Path $Venv) { Remove-Item -Recurse -Force $Venv }
+  & $SystemPython -m venv $Venv
+  if ($LASTEXITCODE -ne 0) { Fail "Python virtual environment creation failed." }
+}
 if (-not (Test-Path $Python)) { Fail "Python virtual environment was not created." }
 
 Step "Installing BNSH and Control Center dependencies"
