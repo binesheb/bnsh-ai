@@ -1,29 +1,19 @@
 # BNSH Control Center
 
-The Control Center is the local web UI for BNSH AI and ARIV.
+The Control Center is the local GUI for monitoring and controlling BNSH AI.
 
-## First milestone
+## Start
 
-- Overview dashboard
-- Model discovery
-- Model status
-- Install lifecycle
-- Runtime status
-- Hardware summary
-- Activity/log surface
+After the Windows bootstrap:
 
-The UI is designed to consume the same model catalog and control API used by the CLI.
+    bnsh control
 
-## Architecture
+The launcher starts the local API and browser GUI and opens http://127.0.0.1:8787.
 
-```
-Browser
-  ↓
-Control Center UI
-  ↓ HTTP/WebSocket
-BNSH Control API
-  ↓
-Runtime / Model / Training / Learning managers
-```
+## Safety
 
-Future sections include Training, Evolution, Knowledge, Teachers, Evaluation, Hardware, and Settings.
+The Control Center binds to loopback only by default. It is not an internet-facing server.
+
+The GUI is intended to control local model installation, runtime state, inference, system monitoring, activity/logs, and future training/evaluation/evolution jobs.
+
+The API is separate from the UI so BINESH OS and other clients can use the same control layer.
