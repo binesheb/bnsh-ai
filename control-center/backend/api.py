@@ -15,9 +15,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from runtime_service import RuntimeService
+from bnsh.models import ModelManager
 
 CATALOG = ROOT / "models" / "catalog.json"
 RUNTIME = RuntimeService()
+MODELS = ModelManager()
 STARTED = time.time()
 
 
@@ -88,12 +90,16 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/runtime":
             return self._json(RUNTIME.status())
         if path == "/api/models":
-            return self._json(catalog())
+            payload = catalog()
+            installed = {record.model_id for record in MODELS.list()}
+            for model in payload.get("models", []):
+                model["installed"] = model["id"] in installed
+            return self._json(payload)
         if path.startswith("/api/models/"):
             model_id = path.rsplit("/", 1)[-1]
             for model in catalog().get("models", []):
                 if model["id"] == model_id:
-                    return self._json({"model": model, "installed": False})
+                    return self._json({"model": model, "installed": model["id"] in {record.model_id for record in MODELS.list()}})
             return self._json({"error": "model_not_found"}, 404)
         if path == "/api/activity":
             return self._json({"items": [
