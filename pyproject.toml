@@ -13,16 +13,19 @@ authors = [{name = "Binesh E B"}]
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.3", "ruff>=0.9", "psutil>=6.1"]
+dev = ["pytest>=8.3,<10", "ruff>=0.9,<1", "psutil>=7.2,<8"]
 transformers = [
-  "torch>=2.6",
-  "transformers>=4.49",
-  "accelerate>=1.2",
+  "torch>=2.14,<3",
+  "transformers>=5.17,<6",
+  "accelerate>=1.15,<2",
+]
+llama = [
+  "llama-cpp-python>=0.3.35,<0.4",
 ]
 training = [
   "torch>=2.6",
   "transformers>=4.49",
-  "datasets>=3.2",
+  "datasets>=5.0,<6",
   "accelerate>=1.2",
   "pyyaml>=6.0",
 ]
