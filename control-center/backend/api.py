@@ -6,6 +6,8 @@ import platform
 import shutil
 import sys
 import time
+import threading
+import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
@@ -16,10 +18,14 @@ if str(ROOT) not in sys.path:
 
 from runtime_service import RuntimeService
 from bnsh.models import ModelManager
+from bnsh.model_catalog import ModelCatalog
+from bnsh.installation import ModelInstaller
 
 CATALOG = ROOT / "models" / "catalog.json"
 RUNTIME = RuntimeService()
 MODELS = ModelManager()
+INSTALLER = ModelInstaller(ModelCatalog(CATALOG), MODELS.root)
+OPERATIONS = {}
 STARTED = time.time()
 
 
@@ -73,6 +79,19 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = urlparse(self.path).path
+        if path.startswith("/api/models/") and path.endswith("/install"):
+            model_id = path.split("/")[-2]
+            operation_id = uuid.uuid4().hex
+            OPERATIONS[operation_id] = {"id": operation_id, "model_id": model_id, "status": "queued", "message": "Queued"}
+            def worker():
+                OPERATIONS[operation_id]["status"] = "running"
+                try:
+                    result = INSTALLER.install(model_id)
+                    OPERATIONS[operation_id].update({"status": result.status.value, "message": result.message, "location": result.location})
+                except Exception as exc:
+                    OPERATIONS[operation_id].update({"status": "failed", "message": str(exc)})
+            threading.Thread(target=worker, daemon=True).start()
+            return self._json(OPERATIONS[operation_id], 202)
         if path == "/api/chat":
             try:
                 payload = self._body()
@@ -101,6 +120,12 @@ class Handler(BaseHTTPRequestHandler):
                 if model["id"] == model_id:
                     return self._json({"model": model, "installed": model["id"] in {record.model_id for record in MODELS.list()}})
             return self._json({"error": "model_not_found"}, 404)
+        if path.startswith("/api/operations/"):
+            operation_id = path.rsplit("/", 1)[-1]
+            operation = OPERATIONS.get(operation_id)
+            if not operation:
+                return self._json({"error": "operation_not_found"}, 404)
+            return self._json(operation)
         if path == "/api/activity":
             return self._json({"items": [
                 {"name": "Control API", "status": "Online"},
