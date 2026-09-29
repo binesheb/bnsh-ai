@@ -53,7 +53,7 @@ if (-not (Test-Path $Python)) { Fail "Python virtual environment creation failed
 
 Step "Installing BNSH and Control Center dependencies"
 & $Python -m pip install --upgrade pip
-& $Python -m pip install -e "$RepoRoot[dev]"
+& $Python -m pip install -e "${RepoRoot}[dev]"
 
 if ($LASTEXITCODE -ne 0) { Fail "BNSH installation failed." }
 
