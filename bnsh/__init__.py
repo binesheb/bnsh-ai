@@ -1,8 +1,18 @@
 """BNSH AI public Python package."""
-__version__ = "0.1.0a2"
+__version__ = "0.2.0a1"
+
 from .config import RuntimeConfig
 from .messages import Message
 from .model import ModelInfo
 from .models import ModelManager, ModelRecord
-from .runtime import BNSHRuntime
-__all__ = ["BNSHRuntime", "RuntimeConfig", "Message", "ModelInfo", "ModelManager", "ModelRecord", "__version__"]
+from .runtime.facade import BNSHRuntime
+
+__all__ = [
+    "BNSHRuntime",
+    "RuntimeConfig",
+    "Message",
+    "ModelInfo",
+    "ModelManager",
+    "ModelRecord",
+    "__version__",
+]
