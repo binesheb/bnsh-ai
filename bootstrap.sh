@@ -47,4 +47,4 @@ log "Running validation"
 pytest -q
 
 log "BNSH AI is ready"
-printf '\nRun:\n  source "%s/bin/activate"\n  bnsh health\n  bnsh chat "Hello from BNSH AI"\n\n' "$VENV_DIR"
+printf '\nRun:\n  source "%s/bin/activate"\n  bnsh doctor\n  bnsh chat "Hello from BNSH AI"\n\n' "$VENV_DIR"
