@@ -76,7 +76,7 @@ Step "Creating isolated Python environment"
 $recreateVenv = $true
 if (Test-Path $Python) {
   try {
-    $venvVersion = (& $Python -c "import sys; print(f\x27{sys.version_info.major}.{sys.version_info.minor}\x27)" 2>$null).Trim()
+    $venvVersion = (& $Python -c "import sys; print(str(sys.version_info.major) + '.' + str(sys.version_info.minor))" 2>$null).Trim()
     if ($venvVersion -match "^3\\.(11|12|13)$") { $recreateVenv = $false }
   } catch {}
 }
