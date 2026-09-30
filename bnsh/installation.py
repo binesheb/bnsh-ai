@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 
-from .model_catalog import ModelCatalog, ModelEntry
+from .model_catalog import ModelCatalog
 
 
 class InstallStatus(str, Enum):
@@ -52,6 +52,8 @@ class ModelInstaller:
 
         target = self.models_dir / model.id
         target.mkdir(parents=True, exist_ok=True)
+        manifest = target / "install.json"
+        manifest.write_text(json.dumps({"model_id": model.id, "status": "installing"}, indent=2) + "\n", encoding="utf-8")
 
         for artifact in model.artifacts:
             filename = Path(artifact.filename).name
@@ -69,6 +71,7 @@ class ModelInstaller:
             "files": [Path(a.filename).name for a in model.artifacts],
         }
         (target / "model.json").write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+        manifest.unlink(missing_ok=True)
         return InstallResult(model.id, InstallStatus.INSTALLED, str(target))
 
     @staticmethod
@@ -88,5 +91,8 @@ class ModelInstaller:
             if expected_sha256 and digest.hexdigest().lower() != expected_sha256.lower():
                 raise ValueError(f"SHA-256 verification failed for {destination.name}.")
             temp.replace(destination)
+        except Exception:
+            destination.unlink(missing_ok=True)
+            raise
         finally:
             temp.unlink(missing_ok=True)
