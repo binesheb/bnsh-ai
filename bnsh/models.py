@@ -24,7 +24,9 @@ class ModelManager:
             if not directory.is_dir():
                 continue
             metadata = directory / "model.json"
-            data = json.loads(metadata.read_text()) if metadata.exists() else {}
+            if not metadata.exists():
+                continue
+            data = json.loads(metadata.read_text(encoding="utf-8"))
             records.append(ModelRecord(
                 model_id=directory.name,
                 path=directory,
