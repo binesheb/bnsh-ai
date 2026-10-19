@@ -21,7 +21,7 @@ command -v git >/dev/null 2>&1 || fail "Git is required."
 command -v "$PYTHON_BIN" >/dev/null 2>&1 || fail "Python 3 is required."
 
 PY_VERSION="$("$PYTHON_BIN" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
-"$PYTHON_BIN" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3,10) else 1)'   || fail "Python 3.10 or newer is required. Found $PY_VERSION."
+"$PYTHON_BIN" -c 'import sys; raise SystemExit(0 if (3,11) <= sys.version_info[:2] < (3,14) else 1)' || fail "Python 3.11, 3.12, or 3.13 is required. Found $PY_VERSION."
 
 if [ ! -d "$INSTALL_DIR/.git" ]; then
   log "Cloning BNSH AI into $INSTALL_DIR"
